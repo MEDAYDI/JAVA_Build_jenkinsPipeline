@@ -2,6 +2,7 @@ pipeline {
     agent any
     tools{
         maven 'Maven'
+        docker 'docker'
     }
     stages {
         stage("build jar") {
@@ -20,7 +21,7 @@ pipeline {
                 script{
                     echo "building the docker image ..."
                     withCredentials([usernamePassword(credentialsId:'docker-hub-repo',passwordVariable:'PASS',usernameVariable:'USER')]){
-                        sh "/usr/bin/docker build -t mohamedaydi/jenkinspipeline:1.0  . "
+                        sh "docker build -t mohamedaydi/jenkinspipeline:1.0  . "
                         sh "echo $PASS | docker login -u ${USER} --password-stdin" 
                         sh "docker push mohamedaydi/jenkinspipeline:1.0 "
                     }
