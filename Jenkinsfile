@@ -8,9 +8,13 @@ pipeline {
     }
     stages {
         stage("init"){
-            script{
+            steps{
+                script{
                 gv=load "dcript.groovy"
             }
+
+            }
+            
         }
         stage("build jar") {
             steps {
