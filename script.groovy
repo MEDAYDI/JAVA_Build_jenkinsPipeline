@@ -1,5 +1,11 @@
-def deployApp() {
-    echo 'deploying the application...'
+def buildingJar() {
+    echo 'building the application ...'
 }
+
+def buildingImage() {
+    echo "building the docker image ..."
+}
+
+
 
 return this

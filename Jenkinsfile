@@ -1,3 +1,5 @@
+dev gv
+
 pipeline {
     agent any
     tools{
@@ -5,10 +7,15 @@ pipeline {
         
     }
     stages {
+        stage("init"){
+            script{
+                gv=load "dcript.groovy"
+            }
+        }
         stage("build jar") {
             steps {
                 script{
-                     echo 'building the application ...'
+                     gv.buildingJar()
                      sh 'mvn package'
                 }
                 
@@ -19,7 +26,7 @@ pipeline {
         stage("build image"){
             steps{
                 script{
-                    echo "building the docker image ..."
+                    gv.buildingImage()
                     withCredentials([usernamePassword(credentialsId:'docker-hub-repo',passwordVariable:'PASS',usernameVariable:'USER')]){
                         sh "docker build -t mohamedaydi/jenkinspipeline:1.0  . "
                         sh "echo $PASS | docker login -u ${USER} --password-stdin" 
